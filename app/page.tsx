@@ -3,8 +3,9 @@ import Link from "next/link";
 import { Carousel } from "./_components/ui/heroCarosuel";
 import Category from "./_components/Category/Category";
 import Product from "./_components/Product/Product";
+import Promo from "./_components/promo/Promo";
+export default async function Home() {
 
-export default function Home() {
    const slideData = [
     {
       title: "Aurora Winter Jacket",
@@ -214,6 +215,8 @@ export default function Home() {
     },
   ];
   
+  // Add a delay to simulate loading
+   await new Promise(resolve => setTimeout(resolve, 2000));
   return (
     <main className="min-h-screen">
       {/* Hero Slider Section */}
@@ -273,7 +276,10 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> 
+
+      {/* Promo Section */}
+      <Promo />
       </main>
   );
 }
