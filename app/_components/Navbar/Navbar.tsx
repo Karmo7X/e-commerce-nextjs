@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { routes } from '@/app/config/routes'
 import {
   Dialog,
   DialogPanel,
@@ -22,39 +23,6 @@ import {
   XMarkIcon,
   ChevronDownIcon,
 } from '@heroicons/react/24/outline'
-
-// Define all routes
-const routes = {
-  home: '/',
-  categories: '/categories',
-  collections: {
-    summer: '/collections/summer',
-    winter: '/collections/winter',
-    spring: '/collections/spring',
-    fall: '/collections/fall',
-  },
-  pages: {
-    about: '/about',
-    contact: '/contact',
-    faq: '/faq',
-    shipping: '/shipping',
-    returns: '/returns',
-    privacy: '/privacy',
-    terms: '/terms',
-  },
-  account: {
-    login: '/account/login',
-    register: '/account/register',
-    profile: '/account/profile',
-    orders: '/account/orders',
-    wishlist: '/account/wishlist',
-  },
-  shop: {
-    sale: '/shop/sale',
-    featured: '/shop/featured',
-    deals: '/shop/deals',
-  }
-}
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -87,6 +55,7 @@ const Navbar = () => {
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
+       
           <Link 
             href={routes.categories} 
             className={`text-sm font-semibold leading-6 transition-colors duration-200 ${
@@ -94,6 +63,14 @@ const Navbar = () => {
             }`}
           >
             Categories
+          </Link>
+          <Link 
+            href={routes.products.all} 
+            className={`text-sm font-semibold leading-6 transition-colors duration-200 ${
+              isActive(routes.products.all) ? 'text-dark-900' : 'text-gray-600 hover:text-dark-900'
+            }`}
+          >
+             Products
           </Link>
           <Link 
             href={routes.shop.sale} 
@@ -172,6 +149,7 @@ const Navbar = () => {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
+             
                 <Link
                   href={routes.categories}
                   className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors duration-200 hover:bg-gray-100 ${
@@ -180,6 +158,15 @@ const Navbar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Categories
+                </Link>
+                <Link
+                  href={routes.products.all}
+                  className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors duration-200 hover:bg-gray-100 ${
+                    isActive(routes.products.all) ? 'text-dark-900' : 'text-gray-600 hover:text-dark-900'
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Products
                 </Link>
                 <Link
                   href={routes.shop.sale}
