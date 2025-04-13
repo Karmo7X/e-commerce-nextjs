@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { routes } from '@/app/config/routes';
 
 const Footer = () => {
   return (
@@ -19,41 +20,74 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Products & Shop */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-gray-200">Quick Links</h4>
+            <h4 className="text-lg font-semibold mb-4 text-gray-200">Products & Shop</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/products" className="text-gray-400 hover:text-blue-400 transition-colors">
-                  Products
+                <Link href={routes.products.all} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  All Products
                 </Link>
               </li>
               <li>
-                <Link href="/categories" className="text-gray-400 hover:text-blue-400 transition-colors">
-                  Categories
+                <Link href={routes.products.detail('featured')} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Featured Products
                 </Link>
               </li>
               <li>
-                <Link href="/deals" className="text-gray-400 hover:text-blue-400 transition-colors">
+                <Link href={routes.products.detail('new')} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  New Arrivals
+                </Link>
+              </li>
+              <li>
+                <Link href={routes.shop.sale} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Sale Items
+                </Link>
+              </li>
+              <li>
+                <Link href={routes.shop.deals} className="text-gray-400 hover:text-blue-400 transition-colors">
                   Special Deals
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-gray-400 hover:text-blue-400 transition-colors">
-                  About Us
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Info */}
+       
+
+          {/* Information */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-gray-200">Contact Us</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>123 Shopping Street</li>
-              <li>New York, NY 10001</li>
-              <li>Phone: (555) 123-4567</li>
-              <li>Email: info@ShopVerse.com</li>
+            <h4 className="text-lg font-semibold mb-4 text-gray-200">Information</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href={routes.pages.about} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href={routes.pages.contact} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link href={routes.pages.shipping} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Shipping Information
+                </Link>
+              </li>
+              <li>
+                <Link href={routes.pages.returns} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Returns Policy
+                </Link>
+              </li>
+              <li>
+                <Link href={routes.pages.privacy} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href={routes.pages.terms} className="text-gray-400 hover:text-blue-400 transition-colors">
+                  Terms & Conditions
+                </Link>
+              </li>
             </ul>
           </div>
 

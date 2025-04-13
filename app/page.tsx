@@ -113,6 +113,7 @@ export default async function Home() {
       description: "A timeless classic tee for everyday wear.",
       category: "Men's Fashion",
       href: "/products/1",
+      inStock: true,
     },
     {
       id: 2,
@@ -124,6 +125,7 @@ export default async function Home() {
       description: "A beautiful dress perfect for any special occasion.",
       category: "Women's Fashion",
       href: "/products/2",
+      inStock: true,
     },
     {
       id: 3,
@@ -135,6 +137,7 @@ export default async function Home() {
       description: "Experience high-quality sound without the wires.",
       category: "Electronics",
       href: "/products/3",
+      inStock: false,
     },
     {
       id: 4,
@@ -146,6 +149,7 @@ export default async function Home() {
       description: "A durable leather wallet to keep your essentials organized.",
       category: "Accessories",
       href: "/products/4",
+      inStock: true,
     },
     {
       id: 5,
@@ -157,6 +161,7 @@ export default async function Home() {
       description: "Comfortable and stylish sneakers for your daily runs.",
       category: "Footwear",
       href: "/products/5",
+      inStock: true,
     },
     {
       id: 6,
@@ -168,6 +173,7 @@ export default async function Home() {
       description: "Stay connected with this sleek and feature-packed smartwatch.",
       category: "Electronics",
       href: "/products/6",
+      inStock: true,
     },
     {
       id: 7,
@@ -179,6 +185,7 @@ export default async function Home() {
       description: "Protect your eyes while staying stylish.",
       category: "Accessories",
       href: "/products/7",
+      inStock: true,
     },
     {
       id: 8,
@@ -190,6 +197,7 @@ export default async function Home() {
       description: "A spacious and durable backpack for all your travel needs.",
       category: "Bags",
       href: "/products/8",
+      inStock: true,
     },
     {
       id: 9,
@@ -201,6 +209,7 @@ export default async function Home() {
       description: "A premium quality leather belt for a classic look.",
       category: "Accessories",
       href: "/products/9",
+      inStock: true,
     },
     {
       id: 10,
@@ -212,6 +221,7 @@ export default async function Home() {
       description: "Enhance your gaming experience with this precision mouse.",
       category: "Electronics",
       href: "/products/10",
+      inStock: true,
     },
   ];
   

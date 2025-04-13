@@ -1,9 +1,12 @@
+"use client"
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Image from 'next/image'
+import { Heart } from 'lucide-react'
 import Loadmorebtn from "../buttons/loadmorebtn";
 import Filter from "../filter/Filter";
 import { routes } from "@/app/config/routes";
+
 interface products {
   id: number;
   name: string;
@@ -13,23 +16,41 @@ interface products {
   slug: string;
   description: string;
   items: number;
-  href?:string;
+  href?: string;
+  inStock: boolean;
 }
 
 interface ProductcardProps {
   products: products[];
+  title: string;
+  description: string;
+  sortBy?: string;
+  filter?: string;
 }
 
-const Productcard = ({ products }: ProductcardProps) => {
+
+
+
+const Productcard = ({ products, title, description, sortBy, filter }: ProductcardProps) => { 
+  const [wishlist, setWishlist] = useState<number[]>([]);
+
+  const toggleWishlist = (productId: number) => {
+    setWishlist(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
   return (
     <>
       <div className="container mx-auto px-4 py-12">
         {/* header section */}
-        <Filter />
+        <Filter title={title} description={description} sortBy={sortBy} filter={filter} />
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-5 ">
           {products.map((product) => (
-            <div className="group  w-[300px] bg-white rounded-lg hover:shadow-md transition-all duration-300">
+            <div key={product.id} className="group w-[300px] bg-white rounded-lg hover:shadow-md transition-all duration-300">
               <div className="relative overflow-hidden rounded-t-lg">
                 <Image
                   src={product.image}
@@ -38,17 +59,58 @@ const Productcard = ({ products }: ProductcardProps) => {
                   height={300}
                   className="w-full h-[220px] object-cover transition-transform duration-300 group-hover:scale-105"
                 />
+                <button
+                  onClick={() => toggleWishlist(product.id)}
+                  className="absolute top-2 right-2 p-2.5 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300 group/wishlist"
+                >
+                  <div className="relative">
+                    <div className={`absolute -inset-1 rounded-full blur opacity-0 group-hover/wishlist:opacity-100 transition duration-300 ${
+                      wishlist.includes(product.id) ? 'bg-red-500' : 'bg-pink-500'
+                    }`}></div>
+                    <Heart
+                      className={`relative w-5 h-5 transition-all duration-300 ${
+                        wishlist.includes(product.id)
+                          ? "fill-red-500 text-red-500 scale-110 animate-pulse"
+                          : "text-gray-600 group-hover/wishlist:text-pink-500 group-hover/wishlist:scale-110"
+                      }`}
+                    />
+                  </div>
+                </button>
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 px-4">
                     <Link
-                        href={routes.products.detail(product.slug) || ''}
+                      href={routes.products.detail(product.slug) || ''}
                       className="bg-white text-black px-4 py-2 text-sm rounded-full font-medium hover:bg-gray-100 transition-colors duration-300"
                     >
                       Quick View
                     </Link>
-                    <button className="bg-black text-white px-4 py-2 text-sm rounded-full font-medium hover:bg-gray-800 transition-colors duration-300">
-                      Add to Cart
+                    <button 
+                      className={`px-4 py-2 text-sm rounded-full font-medium transition-colors duration-300 ${
+                        product.inStock 
+                          ? 'bg-black text-white hover:bg-gray-800' 
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
+                      disabled={!product.inStock}
+                    >
+                      {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                     </button>
+                  </div>
+                </div>
+                <div className="absolute top-4 left-4">
+                  <div className={`relative group/stock`}>
+                    <div className={`absolute -inset-0.5 rounded-full blur opacity-20  transition duration-300 ${
+                      product.inStock ? 'bg-green-400' : 'bg-red-400'
+                    }`}></div>
+                    <div className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm ${
+                      product.inStock 
+                        ? 'bg-green-200/10 text-green-700 border border-green-200/20' 
+                        : 'bg-red-200/10 text-red-700 border border-red-200/20'
+                    }`}>
+                      <div className={`w-1.5 h-1.5 rounded-full ${
+                        product.inStock ? 'bg-green-700 animate-pulse' : 'bg-red-700'
+                      }`}></div>
+                      {product.inStock ? 'In Stock' : 'Out of Stock'}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -82,7 +144,7 @@ const Productcard = ({ products }: ProductcardProps) => {
         </div>
 
         {/* Load More Button */}
-          <Loadmorebtn />
+        <Loadmorebtn />
       </div>
     </>
   );

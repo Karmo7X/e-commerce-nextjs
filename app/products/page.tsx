@@ -32,6 +32,7 @@ export default async function Products() {
       description: "High-quality cotton t-shirt with premium stitching",
       items: 50,
       href: "/products/premium-cotton-t-shirt",
+      inStock: true,
     },
     {
       id: 2,
@@ -44,6 +45,7 @@ export default async function Products() {
       description: "Modern slim fit jeans with stretch technology",
       items: 30,
       href: "/products/slim-fit-jeans",
+      inStock: true,
     },
     {
       id: 3,
@@ -56,6 +58,7 @@ export default async function Products() {
       description: "Premium leather sneakers with cushioned soles",
       items: 25,
       href: "/products/leather-sneakers",
+      inStock: false,
     },
     {
       id: 4,
@@ -68,6 +71,7 @@ export default async function Products() {
       description: "Warm wool blend coat for cold weather",
       items: 15,
       href: "/products/wool-blend-coat",
+      inStock: true,
     },
   ];
  
@@ -134,7 +138,7 @@ export default async function Products() {
 
       {/* Products Section */}
       <AnimatedSection className="container mx-auto  py-16">
-        <Productcard products={products} />
+        <Productcard products={products} title="Featured Products" description="Discover our curated collection of premium products" sortBy="Sort by: Featured" filter="Filter" />
       </AnimatedSection>
     </div>
   );

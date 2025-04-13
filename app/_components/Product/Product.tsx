@@ -1,7 +1,9 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "../ui/card";
+import { Heart } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -19,6 +21,7 @@ interface Product {
     description: string;
     category: string;
     href: string;
+    inStock: boolean;
   }
 
 interface ProductProps {
@@ -34,6 +37,16 @@ interface ProductProps {
 }
 
 const Product = ({ products }: ProductProps) => {
+  const [wishlist, setWishlist] = useState<number[]>([]);
+
+  const toggleWishlist = (productId: number) => {
+    setWishlist(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
   return (
     <>
       <Carousel
@@ -56,6 +69,40 @@ const Product = ({ products }: ProductProps) => {
                   height={300}
                   className="w-full h-[220px] object-cover transition-transform duration-300 group-hover:scale-105"
                 />
+                <button
+                  onClick={() => toggleWishlist(product.id)}
+                  className="absolute top-2 right-2 p-2.5 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300 group/wishlist"
+                >
+                  <div className="relative">
+                    <div className={`absolute -inset-1 rounded-full blur opacity-0 group-hover/wishlist:opacity-100 transition duration-300 ${
+                      wishlist.includes(product.id) ? 'bg-red-500' : 'bg-pink-500'
+                    }`}></div>
+                    <Heart
+                      className={`relative w-5 h-5 transition-all duration-300 ${
+                        wishlist.includes(product.id)
+                          ? "fill-red-500 text-red-500 scale-110 animate-pulse"
+                          : "text-gray-600 group-hover/wishlist:text-pink-500 group-hover/wishlist:scale-110"
+                      }`}
+                    />
+                  </div>
+                </button>
+                <div className="absolute top-4 left-4">
+                  <div className={`relative group/stock`}>
+                    <div className={`absolute -inset-0.5 rounded-full blur opacity-20  transition duration-300 ${
+                      product.inStock ? 'bg-green-400' : 'bg-red-400'
+                    }`}></div>
+                    <div className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm ${
+                      product.inStock 
+                        ? 'bg-green-200/10 text-green-700 border border-green-200/20' 
+                        : 'bg-red-200/10 text-red-700 border border-red-200/20'
+                    }`}>
+                      <div className={`w-1.5 h-1.5 rounded-full ${
+                        product.inStock ? 'bg-green-700 animate-pulse' : 'bg-red-700'
+                      }`}></div>
+                      {product.inStock ? 'In Stock' : 'Out of Stock'}
+                    </div>
+                  </div>
+                </div>
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 px-4">
                     <Link

@@ -248,7 +248,7 @@ export default function ProductDetail() {
           </div>
 
           {/* Tab Content */}
-          <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-4 py-12">
             {activeTab === 'description' && (
               <motion.div
                 initial={{ opacity: 0 }}
