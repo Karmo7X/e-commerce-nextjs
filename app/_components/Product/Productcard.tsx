@@ -6,6 +6,8 @@ import { Heart } from 'lucide-react'
 import Loadmorebtn from "../buttons/loadmorebtn";
 import Filter from "../filter/Filter";
 import { routes } from "@/app/config/routes";
+import { useCart } from "@/app/_context/CartContext";
+import Cart from "../cart/Cart";
 
 interface products {
   id: number;
@@ -28,11 +30,9 @@ interface ProductcardProps {
   filter?: string;
 }
 
-
-
-
 const Productcard = ({ products, title, description, sortBy, filter }: ProductcardProps) => { 
   const [wishlist, setWishlist] = useState<number[]>([]);
+  const { cartItems, addToCart } = useCart();
 
   const toggleWishlist = (productId: number) => {
     setWishlist(prev => 
@@ -85,14 +85,21 @@ const Productcard = ({ products, title, description, sortBy, filter }: Productca
                       Quick View
                     </Link>
                     <button 
-                      className={`px-4 py-2 text-sm rounded-full font-medium transition-colors duration-300 ${
+                      onClick={() => addToCart(product.id)}
+                      className={`px-4 py-2 text-sm rounded-full font-medium transition-all duration-300 ${
                         product.inStock 
-                          ? 'bg-black text-white hover:bg-gray-800' 
+                          ? cartItems.includes(product.id)
+                            ? 'bg-green-600 text-white hover:bg-green-700'
+                            : 'bg-black text-white hover:bg-gray-800'
                           : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       }`}
                       disabled={!product.inStock}
                     >
-                      {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                      {product.inStock 
+                        ? cartItems.includes(product.id) 
+                          ? 'Added to Cart' 
+                          : 'Add to Cart'
+                        : 'Out of Stock'}
                     </button>
                   </div>
                 </div>
@@ -142,7 +149,7 @@ const Productcard = ({ products, title, description, sortBy, filter }: Productca
             </div>
           ))}
         </div>
-
+        <Cart products={products} />
         {/* Load More Button */}
         <Loadmorebtn />
       </div>

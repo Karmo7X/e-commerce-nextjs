@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import { routes } from '@/app/config/routes'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -7,6 +8,7 @@ import Productcard from '@/app/_components/Product/Productcard'
 import Breadcurmb from '@/app/_components/breadcurmb/Breadcurmb'
 import More_categories from '@/app/_components/Category/More_categories'
 import Newsletter_sec from '@/app/_components/newsletter/Newsletter_sec'
+import Cart from '@/app/_components/cart/Cart'
 
 // Mock data for categories
 const categories = [
@@ -51,7 +53,8 @@ const products = [
     href: '/products/1',
     slug: 'classic-white-tshirt',
     description: 'Premium quality white t-shirt made from 100% organic cotton',
-    items: 50
+    items: 50,
+    inStock: true
   },
   {
     id: 2,
@@ -66,7 +69,8 @@ const products = [
     href: '/products/2',
     slug: 'slim-fit-jeans',
     description: 'Modern slim fit jeans with stretch technology for maximum comfort',
-    items: 30
+    items: 30,
+    inStock: true
   },
   {
     id: 3,
@@ -81,7 +85,8 @@ const products = [
     href: '/products/3',
     slug: 'leather-jacket',
     description: 'Premium genuine leather jacket with modern design',
-    items: 15
+    items: 15,
+    inStock: true
   },
   {
     id: 4,
@@ -96,7 +101,8 @@ const products = [
     href: '/products/4',
     slug: 'casual-sneakers',
     description: 'Comfortable and stylish casual sneakers for everyday wear',
-    items: 25
+    items: 25,
+    inStock: true
   }
 ]
 
@@ -114,8 +120,18 @@ const breadcurmb = [
     href: routes.categories
   }
 ]
-export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const category = categories.find(cat => cat.slug === params.slug)
+
+export default function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = React.use(params)
+  const [cartItems, setCartItems] = useState<number[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const handleAddToCart = (productId: number) => {
+    setCartItems(prev => [...prev, productId]);
+    setIsCartOpen(true);
+  };
+
+  const category = categories.find(cat => cat.slug === resolvedParams.slug)
 
   if (!category) {
     return (
@@ -170,13 +186,21 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
      <Breadcurmb  breadcurmb ={breadcurmb}/>
 
       {/* Products Section */}
-       <Productcard  products={products} />
+       <Productcard 
+         products={products} 
+         title={category.name}
+         description={category.description}
+        sortBy="Sort by: Newest" filter="Filter"
+        
+       />
 
       {/* Category Content */}
        <More_categories more_categories={categories}/>
 
       {/* Newsletter Section */}
       <Newsletter_sec />
+
+      
     </div>
   )
 }
